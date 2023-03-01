@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+    <Properties>
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %p %m%n</Property>
+    </Properties>
+
+    <Appenders>
+        <!-- Console appender configuration -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" />
+        </Console>
+        
+        <RollingFile name="errorLog">
+        	<FileName>logs/error.log</FileName>
+      		<FilePattern>logs/error-%d{yyyy-MM-dd}-%i.log</FilePattern>
+      	    <LevelRangeFilter minLevel="ERROR" maxLevel="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="19500KB" />
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+        
+        <RollingFile name="infoLog">
+        	<FileName>logs/info.log</FileName>
+      		<FilePattern>logs/info-%d{yyyy-MM-dd}-%i.log</FilePattern>
+            <LevelRangeFilter minLevel="INFO" maxLevel="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="19500KB" />
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+        
+        <RollingFile name="debugLog">
+        	<FileName>logs/debug.log</FileName>
+      		<FilePattern>logs/debug-%d{yyyy-MM-dd}-%i.log</FilePattern>
+            <LevelRangeFilter minLevel="DEBUG" maxLevel="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="19500KB" />
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+
+        <RollingFile name="traceLog">
+            <FileName>logs/trace.log</FileName>
+            <FilePattern>logs/trace-%d{yyyy-MM-dd}-%i.log</FilePattern>
+            <LevelRangeFilter minLevel="TRACE" maxLevel="TRACE" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="19500KB" />
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+       
+    </Appenders>
+
+    <Loggers>
+
+<!--        <Logger name="main.java.org.example" additivity="false">-->
+<!--            <AppenderRef ref="Console" />-->
+<!--            <AppenderRef ref="infoLog" />-->
+<!--            <AppenderRef ref="debugLog" />-->
+<!--            <AppenderRef ref="traceLog"/>-->
+<!--            <AppenderRef ref="errorLog" />-->
+<!--        </Logger>-->
+
+    	<Root level="all">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="infoLog" />
+            <AppenderRef ref="debugLog" />
+            <AppenderRef ref="traceLog"/>
+            <AppenderRef ref="errorLog" />
+    	</Root>
+
+    </Loggers>
+
+</Configuration>
