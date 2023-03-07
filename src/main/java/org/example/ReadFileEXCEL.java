@@ -30,7 +30,7 @@ public class ReadFileEXCEL {
             Sheet sheet = workbook.getSheetAt(j);
 
             // starts from row 7 which is beginning of the station list
-            for (int i = 6; i < sheet.getLastRowNum()+1; i++) {
+            for (int i = 6; i < sheet.getLastRowNum(); i++) {
                 Row row = sheet.getRow(i);
                 Cell cell = row.getCell(2);
 
@@ -44,11 +44,26 @@ public class ReadFileEXCEL {
                 if (cell == null || cell.getRichStringCellValue().getString() == ""){
                     ValueEXCEL valueEXCEL = new ValueEXCEL();
                     valueEXCEL.sheet = workbook.getSheetName(j);
+
                     valueEXCEL.platform = row.getCell(3).getCellType() == CellType.STRING ?
                             Integer.parseInt(row.getCell(3).getRichStringCellValue().getString()) :
                             (int) row.getCell(3).getNumericCellValue();
-                    valueEXCEL.stationName = row.getCell(2).getRichStringCellValue().getString();
+
+                    String station = row.getCell(2).getRichStringCellValue().getString();
+                    int spaceIdx = station.indexOf(" ");
+                    valueEXCEL.stationName = station.substring(spaceIdx);
+
                     valueEXCEL.line = i + 1;
+
+                    Row rowNext = sheet.getRow(i+1);
+                    valueEXCEL.nextPlatform = rowNext.getCell(3).getCellType() == CellType.STRING ?
+                            Integer.parseInt(rowNext.getCell(3).getRichStringCellValue().getString()) :
+                            (int) rowNext.getCell(3).getNumericCellValue();
+
+                    station = rowNext.getCell(2).getRichStringCellValue().getString();
+                    spaceIdx = station.indexOf(" ");
+                    valueEXCEL.nextStationName = station.substring(spaceIdx);
+
 //                    System.out.println(valueEXCEL);
                     foundStations.add(valueEXCEL);
                 }
